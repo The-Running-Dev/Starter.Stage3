@@ -66,7 +66,7 @@
             <Label Grid.Row="0" Grid.Column="1">Details</Label>
 
             <ListView Grid.Row="1" Grid.Column="0" Name="CatsList" 
-                  ItemsSource="{Binding Cats}" SelectedItem="{Binding SelectedCat}"
+                  ItemsSource="{Binding Cats}" SelectedItem="{Binding SelectedCat.Value}"
                   AlternationCount="2" Foreground="#FF5B1D1D">
                 <ListView.View>
                     <GridView>
@@ -93,10 +93,10 @@
                 </StackPanel>
 
                 <StackPanel Grid.Row="0" Grid.Column="1">
-                    <TextBlock Height="20" Margin="0,10,0,5" Text="{Binding SelectedCat.Id }"></TextBlock>
-                    <TextBox Height="20" Margin="0,-5,0,10" Text="{Binding SelectedCat.Name }"
+                    <TextBlock Height="20" Margin="0,10,0,5" Text="{Binding SelectedCat.Value.Id }"></TextBlock>
+                    <TextBox Height="20" Margin="0,-5,0,10" Text="{Binding SelectedCat.Value.Name }"
                              extensions:FocusExtension.IsFocused="{Binding IsNameFocused.Value}" />
-                    <ListBox Margin="0,0,0,0" Name="AbilityListBox" SelectedItem="{Binding SelectedCat.AbilityId}"
+                    <ListBox Margin="0,0,0,0" Name="AbilityListBox" SelectedItem="{Binding SelectedCat.Value.AbilityId}"
                      ItemsSource="{Binding Source={StaticResource AbilityValues}}"
                      ItemContainerStyle="{StaticResource AbilitiesStyle}" />
                 </StackPanel>

@@ -7,8 +7,10 @@ using NUnit.Framework;
 
 using Starter.Bootstrapper;
 using Starter.Data.Entities;
+using Starter.Data.Services;
 using Starter.Data.ViewModels;
 using Starter.Framework.Clients;
+using Starter.Framework.Services;
 
 namespace Starter.Data.Tests
 {
@@ -24,6 +26,10 @@ namespace Starter.Data.Tests
 
         protected IApiClient ApiClient;
 
+        protected IServiceBus ServiceBus;
+
+        protected ICatService CatService;
+
         [OneTimeSetUp]
         public void OneTimeSetUp()
         {
@@ -31,15 +37,17 @@ namespace Starter.Data.Tests
 
             CreateCatTestData();
 
-            var apiClient = new Mock<IApiClient>();
+            var mockApiClient = new Mock<IApiClient>();
+            var mockServiceBus = new Mock<IServiceBus>();
+            var mockCatService = new Mock<ICatService>();
 
-            // Setup the API client
-            apiClient.Setup(x => x.GetAll<Cat>()).Returns(Task.FromResult(Cats.AsEnumerable()));
+            // Setup the cat service
+            mockCatService.Setup(x => x.GetAll()).Returns(Task.FromResult(Cats.AsEnumerable()));
 
-            apiClient.Setup(x => x.GetById<Cat>(It.IsAny<Guid>()))
+            mockCatService.Setup(x => x.GetById(It.IsAny<Guid>()))
                 .Returns((Guid id) => { return Task.FromResult(Cats.FirstOrDefault(x => x.Id == id)); });
 
-            apiClient.Setup(x => x.Create(It.IsAny<Cat>()))
+            mockCatService.Setup(x => x.Create(It.IsAny<Cat>()))
                 .Returns((Cat entity) =>
                 {
                     Cats.Add(entity);
@@ -47,35 +55,48 @@ namespace Starter.Data.Tests
                     return Task.CompletedTask;
                 });
 
-            apiClient.Setup(x => x.Update(It.IsAny<Cat>()))
+            mockCatService.Setup(x => x.Update(It.IsAny<Cat>()))
                 .Returns((Cat entity) =>
                 {
                     var existing = Cats.Find(x => x.Id == entity.Id);
-                    
+
                     Cats.Remove(existing);
                     Cats.Add(entity);
 
                     return Task.CompletedTask;
                 });
 
-            apiClient.Setup(x => x.Delete(It.IsAny<Guid>()))
+            mockCatService.Setup(x => x.Delete(It.IsAny<Guid>()))
                 .Returns((Guid id) =>
                 {
                     Cats.Remove(Cats.FirstOrDefault(x => x.Id == id));
                     return Task.CompletedTask;
                 });
 
-            ApiClient = apiClient.Object;
-            ViewModel = new MainViewModel(ApiClient);
+            ApiClient = mockApiClient.Object;
+            ServiceBus = mockServiceBus.Object;
+            CatService = mockCatService.Object;
+
+            ViewModel = new MainViewModel(CatService);
         }
 
         protected void CreateCatTestData()
         {
             Cats = new List<Cat>
             {
-                new Cat { Id = Guid.NewGuid(), Name  = "Widget", AbilityId = Ability.Eating },
-                new Cat { Id = Guid.NewGuid(), Name  = "Garfield", AbilityId = Ability.Engineering },
-                new Cat { Id = Guid.NewGuid(), Name  = "Mr. Boots", AbilityId = Ability.Lounging }
+                new Cat
+                {
+                    Id = Guid.NewGuid(), SecondaryId = Guid.NewGuid(), Name = "Widget", AbilityId = Ability.Eating
+                },
+                new Cat
+                {
+                    Id = Guid.NewGuid(), SecondaryId = Guid.NewGuid(), Name = "Garfield",
+                    AbilityId = Ability.Engineering
+                },
+                new Cat
+                {
+                    Id = Guid.NewGuid(), SecondaryId = Guid.NewGuid(), Name = "Mr. Boots", AbilityId = Ability.Lounging
+                }
             };
         }
     }

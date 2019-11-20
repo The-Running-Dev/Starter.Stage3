@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Windows.Input;
 using System.ComponentModel;
+using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Threading.Tasks;
+
 using Starter.Data.Commands;
 using Starter.Data.Entities;
+using Starter.Data.Services;
 using Starter.Framework.Clients;
+using Starter.Framework.Services;
 using Starter.Framework.Extensions;
 
 namespace Starter.Data.ViewModels
@@ -22,16 +25,16 @@ namespace Starter.Data.ViewModels
         {
             get
             {
-                if (SelectedCat == null)
+                if (SelectedCat.Value == null)
                 {
                     return false;
                 }
 
-                return SelectedCat.AbilityId != 0 && SelectedCat.Name.IsNotEmpty();
+                return SelectedCat.Value.AbilityId != 0 && SelectedCat.Value.Name.IsNotEmpty();
             }
         }
 
-        public bool IsCatSelected => _selectedCat != null;
+        public bool IsCatSelected => SelectedCat.Value != null;
 
         public PropertyObservable<bool> IsCreating { get; set; }
 
@@ -49,20 +52,7 @@ namespace Starter.Data.ViewModels
 
         public List<object> Abilities { get; set; }
 
-        public Cat SelectedCat
-        {
-            get => _selectedCat;
-
-            set
-            {
-                IsNameFocused.Value = false;
-                IsCreating.Value = false;
-
-                GetById(value.Id);
-
-                IsNameFocused.Value = true;
-            }
-        }
+        public PropertyObservable<Cat> SelectedCat { get; set; }
 
         public ObservableCollection<IEntity> Cats
         {
@@ -76,13 +66,16 @@ namespace Starter.Data.ViewModels
             }
         }
 
-        public MainViewModel(IApiClient apiClient)
+        public MainViewModel(ICatService service)
         {
-            _apiClient = apiClient;
+            _service = service;
 
             IsCreating = new PropertyObservable<bool>(false);
             IsLoading = new PropertyObservable<bool>(false);
             IsNameFocused = new PropertyObservable<bool>(false);
+            
+            SelectedCat = new PropertyObservable<Cat>(null);
+            SelectedCat.PropertyChanged += OnSelectedCatPropertyChanged;
 
             CreateCommand = new CatCommand(Create, param => !IsCreating.Value);
             SaveCommand = new CatCommand(Save, canExecute => AllowSave);
@@ -90,15 +83,15 @@ namespace Starter.Data.ViewModels
             CancelCommand = new CatCommand(ResetSelection, canExecute => IsCatSelected || IsCreating.Value);
 
             Abilities = new List<object>(typeof(Ability).ToNameValueList());
-            
-            GetAll();
+
+            Task.Run(GetAll);
         }
 
         public async Task GetAll()
         {
             IsLoading.Value = true;
 
-            Cats = new ObservableCollection<IEntity>(await _apiClient.GetAll<Cat>());
+            Cats = new ObservableCollection<IEntity>(await _service.GetAll());
 
             IsLoading.Value = false;
         }
@@ -107,7 +100,7 @@ namespace Starter.Data.ViewModels
         {
             IsLoading.Value = true;
 
-            _selectedCat = await _apiClient.GetById<Cat>(id);
+            SelectedCat.Value = await _service.GetById(id);
 
             OnPropertyChanged(nameof(SelectedCat));
             OnPropertyChanged(nameof(IsCatSelected));
@@ -117,17 +110,12 @@ namespace Starter.Data.ViewModels
 
         public void Create()
         {
-            IsCreating.Value = true;
-            IsNameFocused.Value = false;
+            //IsCreating.Value = true;
+            //IsNameFocused.Value = false;
 
-            //_selectedCat = parameter;
-            _selectedCat = new Cat
-            {
-                Id = Guid.NewGuid(),
-                AbilityId = 0
-            };
+            SelectedCat.Value = new Cat();
 
-            IsNameFocused.Value = true;
+            //IsNameFocused.Value = true;
 
             OnPropertyChanged(nameof(SelectedCat));
             OnPropertyChanged(nameof(IsCatSelected));
@@ -139,11 +127,11 @@ namespace Starter.Data.ViewModels
 
             if (IsCreating.Value)
             {
-                await _apiClient.Create(SelectedCat);
+                await _service.Create(SelectedCat.Value);
             }
             else
             {
-                await _apiClient.Update(SelectedCat);
+                await _service.Update(SelectedCat.Value);
             }
 
             ResetSelection();
@@ -155,11 +143,29 @@ namespace Starter.Data.ViewModels
         {
             IsLoading.Value = true;
 
-            await _apiClient.Delete(SelectedCat.Id);
+            await _service.Delete(SelectedCat.Value.Id);
 
             ResetSelection();
 
             await GetAll();
+        }
+
+        private void OnSelectedCatPropertyChanged(object sender, PropertyChangedEventArgs args)
+        {
+            var cat = ((PropertyObservable<Cat>)sender)?.Value;
+
+            if (cat != null)
+            {
+                IsNameFocused.Value = false;
+                IsCreating.Value = cat.Id.Equals(Guid.Empty);
+
+                if (!IsCreating.Value)
+                {
+                    Task.Run(() => GetById(cat.Id));
+                }
+            }
+
+            IsNameFocused.Value = true;
         }
 
         private void OnPropertyChanged(string propertyName)
@@ -169,7 +175,7 @@ namespace Starter.Data.ViewModels
 
         private void ResetSelection()
         {
-            _selectedCat = null;
+            SelectedCat.Value = null;
             IsCreating.Value = false;
 
             OnPropertyChanged(nameof(SelectedCat));
@@ -178,8 +184,6 @@ namespace Starter.Data.ViewModels
 
         private ObservableCollection<IEntity> _cats;
 
-        private Cat _selectedCat;
-
-        private readonly IApiClient _apiClient;
+        private readonly ICatService _service;
     }
 }

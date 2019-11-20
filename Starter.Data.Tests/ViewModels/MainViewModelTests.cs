@@ -19,7 +19,8 @@ namespace Starter.Data.Tests.ViewModels
         [Test]
         public void New_MainViewModel_Successful()
         {
-            var viewModel = new MainViewModel(ApiClient);
+            var viewModel = new MainViewModel(CatService);
+
             viewModel.Abilities.Should().NotBeNull();
             viewModel.IsCreating.Value.Should().BeFalse();
             viewModel.IsLoading.Value.Should().BeFalse();
@@ -41,7 +42,7 @@ namespace Starter.Data.Tests.ViewModels
             var lastCat = Cats.LastOrDefault();
             await ViewModel.GetById(lastCat.Id);
 
-            ViewModel.SelectedCat.Should().Be(lastCat);
+            ViewModel.SelectedCat.Value.Should().Be(lastCat);
             ViewModel.IsCatSelected.Should().BeTrue();
         }
 
@@ -52,7 +53,7 @@ namespace Starter.Data.Tests.ViewModels
 
             ViewModel.IsCreating.Value.Should().BeTrue();
             ViewModel.IsNameFocused.Value.Should().BeTrue();
-            ViewModel.SelectedCat.AbilityId.Should().Be(0);
+            ViewModel.SelectedCat.Value.AbilityId.Should().Be(0);
             ViewModel.IsCatSelected.Should().BeTrue();
         }
 
@@ -62,7 +63,7 @@ namespace Starter.Data.Tests.ViewModels
             var cat = new Cat() { Id = Guid.NewGuid(), Name = Guid.NewGuid().ToString() };
 
             ViewModel.Create();
-            ViewModel.SelectedCat = cat;
+            ViewModel.SelectedCat.Value = cat;
             ViewModel.Save();
 
             Cats.FirstOrDefault(x => x.Id == cat.Id).Should().BeEquivalentTo(cat);
@@ -76,7 +77,7 @@ namespace Starter.Data.Tests.ViewModels
 
             cat.Name = newName;
             
-            ViewModel.SelectedCat = cat;
+            ViewModel.SelectedCat.Value = cat;
             ViewModel.Save();
 
             Cats.FirstOrDefault(x => x.Name == newName).Should().NotBeNull();
@@ -87,7 +88,7 @@ namespace Starter.Data.Tests.ViewModels
         {
             var cat = Cats.FirstOrDefault();;
             
-            ViewModel.SelectedCat = cat;
+            ViewModel.SelectedCat.Value = cat;
             ViewModel.Delete();
 
             Cats.FirstOrDefault(x => x.Id == cat.Id).Should().BeNull();
