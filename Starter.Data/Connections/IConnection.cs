@@ -4,7 +4,7 @@ namespace Starter.Data.Connections
 {
     public interface IConnection
     {
-        IDbConnection Connect();
+        IDbConnection Create();
 
         IDbCommand CreateSpCommand(string sql, IDbDataParameter[] paramArray);
     }

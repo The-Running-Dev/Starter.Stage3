@@ -15,7 +15,7 @@ namespace Starter.Repository.Connections
             _connectionString = connectionString ?? throw new ArgumentNullException(nameof(connectionString));
         }
 
-        public IDbConnection Connect()
+        public IDbConnection Create()
         {
             var connection = new SqlConnection(_connectionString);
 
@@ -26,7 +26,7 @@ namespace Starter.Repository.Connections
 
         public IDbCommand CreateSpCommand(string sql, IDbDataParameter[] parameters)
         {
-            var connection = Connect();
+            var connection = Create();
             var command = connection.CreateCommand();
 
             command.CommandType = CommandType.StoredProcedure;

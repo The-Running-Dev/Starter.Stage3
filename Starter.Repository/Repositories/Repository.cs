@@ -1,7 +1,7 @@
 ﻿using System.Data;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-
+using Dapper;
 using Starter.Data.Connections;
 using Starter.Framework.Extensions;
 
@@ -17,38 +17,20 @@ namespace Starter.Repository.Repositories
             _connection = connection;
         }
 
-        public async Task<IEnumerable<T>> ExecuteQueryAsync<T>(string sql, IDbDataParameter[] parameters = null)
+        public async Task<IEnumerable<T>> ExecuteQuery<T>(string sql, object parameters = null)
         {
-            using (var command = _connection.CreateSpCommand(sql, parameters))
+            using (var connection = _connection.Create())
             {
-                return await ExecuteReader<T>(command);
+                return await connection.QueryAsync<T>(sql, parameters, commandType: CommandType.StoredProcedure);
             }
         }
 
-        public async Task ExecuteNonQueryAsync(string sql, IDbDataParameter[] parameters = null)
+        public async Task ExecuteNonQuery(string sql, object parameters = null)
         {
-            using (var command = _connection.CreateSpCommand(sql, parameters))
+            using (var connection = _connection.Create())
             {
-                await Task.Run(command.ExecuteNonQuery);
+                await connection.ExecuteAsync(sql, parameters, commandType: CommandType.StoredProcedure);
             }
-        }
-
-        public async Task<IEnumerable<T>> ExecuteReader<T>(IDbCommand command)
-        {
-            var entities = new List<T>();
-
-            await Task.Run(() =>
-            {
-                using (var reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        entities.Add(reader.Map<T>());
-                    }
-                }
-            });
-
-            return entities;
         }
 
         private readonly IConnection _connection;

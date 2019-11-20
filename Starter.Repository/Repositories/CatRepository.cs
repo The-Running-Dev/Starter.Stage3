@@ -22,42 +22,29 @@ namespace Starter.Repository.Repositories
 
         public async Task<IEnumerable<Cat>> GetAll()
         {
-            return await ExecuteQueryAsync<Cat>(GetAllSp);
+            return await ExecuteQuery<Cat>(GetAllSp);
         }
 
         public async Task<Cat> GetById(Guid id)
         {
-            var entities = await ExecuteQueryAsync<Cat>(GetByIdSp, new IDbDataParameter[] { new SqlParameter("id", id) });
+            var entities = await ExecuteQuery<Cat>(GetByIdSp, new { id });
 
             return entities.FirstOrDefault();
         }
 
         public async Task Create(Cat entity)
         {
-            await ExecuteNonQueryAsync(CreateSp, new IDbDataParameter[]
-            {
-                new SqlParameter("id", entity.Id),
-                new SqlParameter("name", entity.Name),
-                new SqlParameter("abilityId", entity.AbilityId)
-            });
+            await ExecuteNonQuery(CreateSp, new { entity.Id, entity.Name, entity.AbilityId });
         }
 
         public async Task Update(Cat entity)
         {
-            await ExecuteNonQueryAsync(UpdateSp, new IDbDataParameter[]
-            {
-                new SqlParameter("id", entity.Id),
-                new SqlParameter("name", entity.Name),
-                new SqlParameter("abilityId", entity.AbilityId)
-            });
+            await ExecuteNonQuery(UpdateSp, new { entity.Id, entity.Name, entity.AbilityId });
         }
 
         public async Task Delete(Guid id)
         {
-            await ExecuteNonQueryAsync(DeleteSp, new IDbDataParameter[]
-            {
-                new SqlParameter("id", id)
-            });
+            await ExecuteNonQuery(DeleteSp, new { id });
         }
 
         private readonly string GetAllSp = "GetAllCats";
