@@ -70,5 +70,11 @@ namespace Starter.Framework.Tests.Extensions
         {
             "     ".IsNotEmpty().Should().BeFalse();
         }
+
+        [Test]
+        public void FromJson_ForEntity_Successful()
+        {
+
+        }
     }
 }

@@ -12,12 +12,12 @@ namespace Starter.Framework.Extensions
     public static class ObjectExtensions
     {
         /// <summary>
-        /// 
+        /// Converts an entity to JSON
         /// </summary>
-        /// <param name="data"></param>
-        /// <param name="format"></param>
+        /// <param name="entity">The entity to convert</param>
+        /// <param name="format">Should the JSON be formatted</param>
         /// <returns></returns>
-        public static string ToJson(this object data, bool format = false)
+        public static string ToJson(this object entity, bool format = false)
         {
             var jss = new JsonSerializerSettings
             {
@@ -27,7 +27,7 @@ namespace Starter.Framework.Extensions
 
             var formatting = (format) ? Formatting.Indented : Formatting.None;
 
-            return JsonConvert.SerializeObject(data, formatting, jss);
+            return JsonConvert.SerializeObject(entity, formatting, jss);
         }
 
         /// <summary>

@@ -1,5 +1,7 @@
 ﻿using System;
 
+using Newtonsoft.Json;
+
 namespace Starter.Framework.Extensions
 {
     /// <summary>
@@ -36,6 +38,22 @@ namespace Starter.Framework.Extensions
         public static bool IsNotEmpty(this string value)
         {
             return !string.IsNullOrEmpty(value) && !string.IsNullOrWhiteSpace(value);
+        }
+
+        /// <summary>
+        /// Converts JSON to an entity
+        /// </summary>
+        /// <param name="json">The JSON to convert</param>
+        /// <returns></returns>
+        public static T FromJson<T>(this string json)
+        {
+            var jss = new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore,
+                DefaultValueHandling = DefaultValueHandling.Ignore
+            };
+
+            return JsonConvert.DeserializeObject<T>(json, jss);
         }
     }
 }
