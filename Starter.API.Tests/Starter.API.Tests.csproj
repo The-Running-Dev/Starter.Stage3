@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net472</TargetFramework>
+
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentAssertions" Version="5.9.0" />
+    <PackageReference Include="Microsoft.AspNet.WebApi" Version="5.2.7" />
+    <PackageReference Include="Moq" Version="4.13.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="NUnit" Version="3.12.0" />
+    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="4.6.0" ExcludeAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Starter.API\Starter.API.csproj" />
+    <ProjectReference Include="..\Starter.Bootstrapper\Starter.Bootstrapper.csproj" />
+    <ProjectReference Include="..\Starter.Data\Starter.Data.csproj" />
+    <ProjectReference Include="..\Starter.Framework\Starter.Framework.csproj" />
+    <ProjectReference Include="..\Starter.Repository\Starter.Repository.csproj" />
+  </ItemGroup>
+
+</Project>

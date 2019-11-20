@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net472</TargetFramework>
+
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentAssertions" Version="5.9.0" />
+    <PackageReference Include="Moq" Version="4.13.1" />
+    <PackageReference Include="nunit" Version="3.12.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Starter.Bootstrapper\Starter.Bootstrapper.csproj" />
+    <ProjectReference Include="..\Starter.Data\Starter.Data.csproj" />
+    <ProjectReference Include="..\Starter.Framework\Starter.Framework.csproj" />
+    <ProjectReference Include="..\Starter.Repository\Starter.Repository.csproj" />
+  </ItemGroup>
+
+</Project>
