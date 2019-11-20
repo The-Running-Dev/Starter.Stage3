@@ -50,9 +50,19 @@ namespace Starter.Repository.Tests
         {
             Cats = new List<Cat>
             {
-                new Cat { Id = Guid.NewGuid(), Name = "Widget", AbilityId = Ability.Eating },
-                new Cat { Id = Guid.NewGuid(), Name = "Garfield", AbilityId = Ability.Engineering },
-                new Cat { Id = Guid.NewGuid(), Name = "Mr. Boots", AbilityId = Ability.Lounging }
+                new Cat
+                {
+                    Id = Guid.NewGuid(), SecondaryId = Guid.NewGuid(), Name = "Widget", AbilityId = Ability.Eating
+                },
+                new Cat
+                {
+                    Id = Guid.NewGuid(), SecondaryId = Guid.NewGuid(), Name = "Garfield",
+                    AbilityId = Ability.Engineering
+                },
+                new Cat
+                {
+                    Id = Guid.NewGuid(), SecondaryId = Guid.NewGuid(), Name = "Mr. Boots", AbilityId = Ability.Lounging
+                }
             };
 
             var connectionString = ConfigurationManager.ConnectionStrings["DatabaseConnection"].ConnectionString;
@@ -68,6 +78,7 @@ namespace Starter.Repository.Tests
                     SqlParameter[] parameters =
                     {
                         new SqlParameter("Id", cat.Id),
+                        new SqlParameter("SecondaryId", cat.SecondaryId),
                         new SqlParameter("Name", cat.Name),
                         new SqlParameter("AbilityId", cat.AbilityId),
                     };

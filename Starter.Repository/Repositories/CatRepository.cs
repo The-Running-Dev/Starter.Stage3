@@ -32,9 +32,16 @@ namespace Starter.Repository.Repositories
             return entities.FirstOrDefault();
         }
 
+        public async Task<Cat> GetBySecondaryId(Guid id)
+        {
+            var entities = await ExecuteQuery<Cat>(GetBySecondaryIdSp, new { SecondaryId = id });
+
+            return entities.FirstOrDefault();
+        }
+
         public async Task Create(Cat entity)
         {
-            await ExecuteNonQuery(CreateSp, new { entity.Id, entity.Name, entity.AbilityId });
+            await ExecuteNonQuery(CreateSp, new { entity.Id, entity.SecondaryId, entity.Name, entity.AbilityId });
         }
 
         public async Task Update(Cat entity)
@@ -50,6 +57,8 @@ namespace Starter.Repository.Repositories
         private readonly string GetAllSp = "GetAllCats";
 
         private readonly string GetByIdSp = "GetCatById";
+
+        private readonly string GetBySecondaryIdSp = "GetCatBySecondaryId";
 
         private readonly string CreateSp = "CreateCat";
 

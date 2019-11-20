@@ -27,6 +27,13 @@ namespace Starter.API.Controllers
             return await _repository.GetById(id);
         }
 
+        // GET api/cat/5
+        [Route("GetBySecondaryId/{id}")]
+        public async Task<Cat> GetBySecondaryId(Guid id)
+        {
+            return await _repository.GetBySecondaryId(id);
+        }
+
         // POST api/cat
         public async Task Post([FromBody] Cat entity)
         {

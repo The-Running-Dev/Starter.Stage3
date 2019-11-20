@@ -1,4 +1,5 @@
-﻿create procedure [dbo].[GetAllCats]
+﻿create procedure [dbo].[GetCatBySecondaryId]
+	@secondaryId UniqueIdentifier
 as
 
 select	c.Id as Id, c.Name, c.SecondaryId,
@@ -7,3 +8,4 @@ from	Cats as c
 		inner join
 		Abilities as a
 		on c.AbilityId = a.Id
+where	c.SecondaryId = @secondaryId

@@ -23,10 +23,19 @@ namespace Starter.API.Tests.Controllers
         }
 
         [Test]
-        public async Task GetCatById_ForCatId_Successful()
+        public async Task GetCatById_ForId_Successful()
         {
             var lastCat = Cats.LastOrDefault();
             var cat = await CatController.GetById(lastCat.Id);
+
+            cat.Id.Should().Be(lastCat.Id);
+        }
+
+        [Test]
+        public async Task GetCatBySecondaryId_ForSecondaryId_Successful()
+        {
+            var lastCat = Cats.LastOrDefault();
+            var cat = await CatController.GetBySecondaryId(lastCat.SecondaryId);
 
             cat.Id.Should().Be(lastCat.Id);
         }

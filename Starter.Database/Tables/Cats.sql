@@ -2,5 +2,6 @@
 (
 	[Id] uniqueidentifier not null primary key default newid(), 
     [Name] nvarchar(100) not null, 
-    [AbilityId] int not null
+    [AbilityId] int not null, 
+    [SecondaryId] uniqueidentifier not null default newid()
 )

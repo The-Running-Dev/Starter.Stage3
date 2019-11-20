@@ -16,6 +16,8 @@ namespace Starter.Data.Repositories
 
         Task<TEntity> GetById(Guid id);
 
+        Task<TEntity> GetBySecondaryId(Guid id);
+
         Task Create(TEntity entity);
 
         Task Update(TEntity entity);

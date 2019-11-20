@@ -38,6 +38,9 @@ namespace Starter.API.Tests
             catRepository.Setup(x => x.GetById(It.IsAny<Guid>()))
                 .Returns((Guid id) => { return Task.FromResult(Cats.FirstOrDefault(x => x.Id == id)); });
 
+            catRepository.Setup(x => x.GetBySecondaryId(It.IsAny<Guid>()))
+                .Returns((Guid id) => { return Task.FromResult(Cats.FirstOrDefault(x => x.SecondaryId == id)); });
+
             catRepository.Setup(x => x.Create(It.IsAny<Cat>()))
                 .Returns((Cat entity) =>
                 {
@@ -59,9 +62,9 @@ namespace Starter.API.Tests
         {
             Cats = new List<Cat>
             {
-                new Cat { Id = Guid.NewGuid(), Name  = "Widget", AbilityId = Ability.Eating },
-                new Cat { Id = Guid.NewGuid(), Name  = "Garfield", AbilityId = Ability.Engineering },
-                new Cat { Id = Guid.NewGuid(), Name  = "Mr. Boots", AbilityId = Ability.Lounging }
+                new Cat { Id = Guid.NewGuid(), SecondaryId = Guid.NewGuid(), Name  = "Widget", AbilityId = Ability.Eating },
+                new Cat { Id = Guid.NewGuid(), SecondaryId = Guid.NewGuid(), Name  = "Garfield", AbilityId = Ability.Engineering },
+                new Cat { Id = Guid.NewGuid(), SecondaryId = Guid.NewGuid(), Name  = "Mr. Boots", AbilityId = Ability.Lounging }
             };
         }
     }

@@ -1,4 +1,6 @@
-﻿namespace Starter.Data.Entities
+﻿using System;
+
+namespace Starter.Data.Entities
 {
     /// <summary>
     /// Implements the Cat entity
@@ -8,5 +10,7 @@
         public string Name { get; set; }
 
         public Ability AbilityId { get; set; }
+
+        public Guid SecondaryId { get; set; }
     }
 }

@@ -32,10 +32,20 @@ namespace Starter.Repository.Tests.Repositories
 
         [Test]
         [Category("Integration")]
-        public async Task CatById_ForCatId_Successful()
+        public async Task CatById_ForId_Successful()
         {
             var cat = Cats.FirstOrDefault();
             var existingCat = await CatRepository.GetById(cat.Id);
+
+            existingCat.Name.Should().Be(cat.Name);
+        }
+
+        [Test]
+        [Category("Integration")]
+        public async Task CatBySecondaryId_ForSecondaryId_Successful()
+        {
+            var cat = Cats.FirstOrDefault();
+            var existingCat = await CatRepository.GetBySecondaryId(cat.SecondaryId);
 
             existingCat.Name.Should().Be(cat.Name);
         }
