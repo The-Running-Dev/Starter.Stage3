@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.0.1" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="Unity" Version="5.11.1" />
     <PackageReference Include="Unity.Configuration" Version="5.11.1" />
@@ -15,8 +15,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Starter.Data\Starter.Data.csproj" />
+    <ProjectReference Include="..\Starter.MessageBus.RabbitMQ\Starter.MessageBus.RabbitMQ.csproj" />
     <ProjectReference Include="..\Starter.Repository\Starter.Repository.csproj" />
-    <ProjectReference Include="..\Starter.ServiceBus\Starter.ServiceBus.RabbitMQ.csproj" />
   </ItemGroup>
 
 </Project>

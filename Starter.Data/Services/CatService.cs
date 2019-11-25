@@ -10,9 +10,13 @@ namespace Starter.Data.Services
 {
     public class CatService: ICatService
     {
-        public CatService(IServiceBus serviceBus, IApiClient apiClient)
+        private readonly IApiClient _apiClient; 
+        
+        private readonly IMessageBus _messageBus;
+
+        public CatService(IMessageBus messageBus, IApiClient apiClient)
         {
-            _serviceBus = serviceBus;
+            _messageBus = messageBus;
             _apiClient = apiClient;
         }
 
@@ -30,25 +34,21 @@ namespace Starter.Data.Services
         {
             var message = new Message<Cat>(MessageCommand.Create, entity);
 
-            await _serviceBus.Send(message);
+            await _messageBus.Send(message);
         }
 
         public async Task Update(Cat entity)
         {
             var message = new Message<Cat>(MessageCommand.Update, entity);
 
-            await _serviceBus.Send(message);
+            await _messageBus.Send(message);
         }
 
         public async Task Delete(Guid id)
         {
             var message = new Message<Guid>(MessageCommand.Delete, id);
 
-            await _serviceBus.Send(message);
+            await _messageBus.Send(message);
         }
-
-        private readonly IServiceBus _serviceBus;
-
-        private readonly IApiClient _apiClient;
     }
 }

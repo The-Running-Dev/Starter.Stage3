@@ -2,7 +2,7 @@
 
 namespace Starter.Framework.Services
 {
-    public interface IServiceBus
+    public interface IMessageBus
     {
         Task Send<T>(T entity);
 

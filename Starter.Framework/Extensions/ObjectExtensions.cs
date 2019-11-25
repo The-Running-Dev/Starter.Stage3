@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Text;
 using System.Collections.Generic;
 
 using Newtonsoft.Json;
@@ -28,6 +29,16 @@ namespace Starter.Framework.Extensions
             var formatting = (format) ? Formatting.Indented : Formatting.None;
 
             return JsonConvert.SerializeObject(entity, formatting, jss);
+        }
+
+        /// <summary>
+        /// Convert an entity to a binary array of it's JSON representation
+        /// </summary>
+        /// <param name="entity">The entity to convert</param>
+        /// <returns></returns>
+        public static byte[] ToJsonBytes(this object entity)
+        {
+            return Encoding.UTF8.GetBytes(entity.ToJson());
         }
 
         /// <summary>

@@ -1,7 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+
 using Moq;
 using NUnit.Framework;
 
@@ -26,7 +27,7 @@ namespace Starter.Data.Tests
 
         protected IApiClient ApiClient;
 
-        protected IServiceBus ServiceBus;
+        protected IMessageBus MessageBus;
 
         protected ICatService CatService;
 
@@ -38,7 +39,7 @@ namespace Starter.Data.Tests
             CreateCatTestData();
 
             var mockApiClient = new Mock<IApiClient>();
-            var mockServiceBus = new Mock<IServiceBus>();
+            var mockServiceBus = new Mock<IMessageBus>();
             var mockCatService = new Mock<ICatService>();
 
             // Setup the cat service
@@ -74,7 +75,7 @@ namespace Starter.Data.Tests
                 });
 
             ApiClient = mockApiClient.Object;
-            ServiceBus = mockServiceBus.Object;
+            MessageBus = mockServiceBus.Object;
             CatService = mockCatService.Object;
 
             ViewModel = new MainViewModel(CatService);

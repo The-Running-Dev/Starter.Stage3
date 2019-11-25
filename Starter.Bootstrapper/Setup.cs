@@ -7,13 +7,13 @@ using Unity.Injection;
 using Unity.RegistrationByConvention;
 using Microsoft.Extensions.DependencyInjection;
 
-using Starter.ServiceBus;
 using Starter.Data.Services;
 using Starter.Data.ViewModels;
 using Starter.Data.Connections;
 using Starter.Data.Repositories;
 using Starter.Framework.Clients;
 using Starter.Framework.Services;
+using Starter.MessageBus.RabbitMQ;
 using Starter.Repository.Connections;
 using Starter.Repository.Repositories;
 
@@ -53,7 +53,7 @@ namespace Starter.Bootstrapper
             container.RegisterType<IApiClient, ApiClient>(new InjectionConstructor(apiUrl, resourceUrl));
 
             container.RegisterType<ICatRepository, CatRepository>();
-            container.RegisterType<IServiceBus, RabbitMqServiceBus>();
+            container.RegisterType<IMessageBus, RabbitMessageBus>();
             container.RegisterType<ICatService, CatService>();
             container.RegisterType<IMainViewModel, MainViewModel>();
 
