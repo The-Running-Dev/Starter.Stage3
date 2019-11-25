@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Threading;
 
 namespace Starter.WPF.Extensions
 {
@@ -27,21 +25,14 @@ namespace Starter.WPF.Extensions
         {
             var uie = (UIElement)d;
 
-            if (!(bool) e.NewValue) return;
+            if (!(bool)e.NewValue) return;
 
-            var action = new Action(() =>
-            {
-                uie.Dispatcher?.BeginInvoke((Action) (() =>
-                {
-                    Console.WriteLine("Setting Focus");
-                    uie.Focusable = true;
-                    Keyboard.Focus(uie);
-
-                    uie.Focus();
-                }));
-            });
-            
-            Task.Factory.StartNew(action);
+            uie.Dispatcher?.BeginInvoke((Action)(() =>
+           {
+               uie.Focusable = true;
+               Keyboard.Focus(uie);
+               uie.Focus();
+           }));
         }
     }
 }

@@ -42,7 +42,7 @@ namespace Starter.Data.Tests.ViewModels
             var lastCat = Cats.LastOrDefault();
             await ViewModel.GetById(lastCat.Id);
 
-            ViewModel.SelectedCat.Value.Should().Be(lastCat);
+            ViewModel.DetailedCat.Should().Be(lastCat);
             ViewModel.IsCatSelected.Should().BeTrue();
         }
 
@@ -53,7 +53,7 @@ namespace Starter.Data.Tests.ViewModels
 
             ViewModel.IsCreating.Value.Should().BeTrue();
             ViewModel.IsNameFocused.Value.Should().BeTrue();
-            ViewModel.SelectedCat.Value.AbilityId.Should().Be(0);
+            ViewModel.DetailedCat.AbilityId.Should().Be(0);
             ViewModel.IsCatSelected.Should().BeTrue();
         }
 
@@ -63,7 +63,7 @@ namespace Starter.Data.Tests.ViewModels
             var cat = new Cat() { Id = Guid.NewGuid(), Name = Guid.NewGuid().ToString() };
 
             ViewModel.Create();
-            ViewModel.SelectedCat.Value = cat;
+            ViewModel.DetailedCat = cat;
             ViewModel.Save();
 
             Cats.FirstOrDefault(x => x.Id == cat.Id).Should().BeEquivalentTo(cat);
@@ -88,7 +88,7 @@ namespace Starter.Data.Tests.ViewModels
         {
             var cat = Cats.FirstOrDefault();;
             
-            ViewModel.SelectedCat.Value = cat;
+            ViewModel.DetailedCat = cat;
             ViewModel.Delete();
 
             Cats.FirstOrDefault(x => x.Id == cat.Id).Should().BeNull();
