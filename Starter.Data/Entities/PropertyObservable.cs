@@ -16,13 +16,7 @@ namespace Starter.Data.Entities
 
             set
             {
-                if (_value != null && _value.Equals(value))
-                {
-                    return;
-                }
-
                 _value = value;
-
                 OnPropertyChanged(nameof(Value));
             }
         }

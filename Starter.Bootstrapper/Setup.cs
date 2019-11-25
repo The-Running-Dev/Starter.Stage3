@@ -7,14 +7,14 @@ using Unity.Injection;
 using Unity.RegistrationByConvention;
 using Microsoft.Extensions.DependencyInjection;
 
+using Starter.ServiceBus;
+using Starter.Data.Services;
 using Starter.Data.ViewModels;
 using Starter.Data.Connections;
 using Starter.Data.Repositories;
-using Starter.Data.Services;
 using Starter.Framework.Clients;
 using Starter.Framework.Services;
 using Starter.Repository.Connections;
-
 using Starter.Repository.Repositories;
 
 namespace Starter.Bootstrapper
@@ -46,7 +46,6 @@ namespace Starter.Bootstrapper
             var container = new UnityContainer();
 
             var connection = ConfigurationManager.ConnectionStrings["DatabaseConnection"]?.ConnectionString;
-            //var apiUrl = ConfigurationManager.AppSettings["ApiUrlLocalIIS"];
             var apiUrl = ConfigurationManager.AppSettings["ApiUrl"];
             var resourceUrl = ConfigurationManager.AppSettings["ResourceUrl"];
 
@@ -54,7 +53,7 @@ namespace Starter.Bootstrapper
             container.RegisterType<IApiClient, ApiClient>(new InjectionConstructor(apiUrl, resourceUrl));
 
             container.RegisterType<ICatRepository, CatRepository>();
-            container.RegisterType<IServiceBus, ServiceBus>();
+            container.RegisterType<IServiceBus, RabbitMqServiceBus>();
             container.RegisterType<ICatService, CatService>();
             container.RegisterType<IMainViewModel, MainViewModel>();
 

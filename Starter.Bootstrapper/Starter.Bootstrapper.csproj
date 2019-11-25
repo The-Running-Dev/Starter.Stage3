@@ -16,6 +16,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Starter.Data\Starter.Data.csproj" />
     <ProjectReference Include="..\Starter.Repository\Starter.Repository.csproj" />
+    <ProjectReference Include="..\Starter.ServiceBus\Starter.ServiceBus.RabbitMQ.csproj" />
   </ItemGroup>
 
 </Project>

@@ -20,12 +20,10 @@ namespace Starter.ServiceBus.Consumer
 
         public void Start()
         {
-            _timer.Start();
         }
 
         public void Stop()
         {
-            _timer.Stop();
         }
     }
 
@@ -35,17 +33,17 @@ namespace Starter.ServiceBus.Consumer
         {
             var rc = HostFactory.Run(x =>
             {
-                x.Service<TownCrier>(s =>
-                {
-                    s.ConstructUsing(name => new ServiceBusConsumer());
-                    s.WhenStarted(tc => tc.Start());
-                    s.WhenStopped(tc => tc.Stop());
-                });
-                x.RunAsLocalSystem();
+                //x.Service<TownCrier>(s =>
+                //{
+                //    s.ConstructUsing(name => new ServiceBusConsumer());
+                //    s.WhenStarted(tc => tc.Start());
+                //    s.WhenStopped(tc => tc.Stop());
+                //});
+                //x.RunAsLocalSystem();
 
-                x.SetDescription("Sample Topshelf Host");
-                x.SetDisplayName("Stuff");
-                x.SetServiceName("Stuff");
+                //x.SetDescription("Sample Topshelf Host");
+                //x.SetDisplayName("Stuff");
+                //x.SetServiceName("Stuff");
             });
 
             var exitCode = (int)Convert.ChangeType(rc, rc.GetTypeCode());
