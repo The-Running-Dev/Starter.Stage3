@@ -18,7 +18,7 @@ namespace Starter.Repository.Tests.Repositories
         [SetUp]
         public void Setup()
         {
-            CreateCatTestData();
+            CreateTestData();
         }
 
         [Test]

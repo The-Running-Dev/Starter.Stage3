@@ -1,7 +1,6 @@
 ﻿using NUnit.Framework;
 using FluentAssertions;
 
-using Starter.Data.Entities;
 using Starter.Framework.Extensions;
 
 namespace Starter.Framework.Tests.Extensions
@@ -10,12 +9,18 @@ namespace Starter.Framework.Tests.Extensions
     /// Tests for the EnumExtensions class
     /// </summary>
     [TestFixture]
-    public class EnumExtensionsTests
+    public class EnumExtensionsTests: TestsBase
     {
         [Test]
-        public void GetDescription_OnEnum_Successful()
+        public void GetDescription_OnEnumWithDescription_Successful()
         {
-            (Ability.Eating).GetDescription().Should().Be("Eating");
+            (TestEnum.FirstItem).GetDescription().Should().Be("First Item");
+        }
+
+        [Test]
+        public void GetDescription_OnEnumWithoutDescription_Successful()
+        {
+            (TestEnum.SecondItem).GetDescription().Should().Be("SecondItem");
         }
     }
 }

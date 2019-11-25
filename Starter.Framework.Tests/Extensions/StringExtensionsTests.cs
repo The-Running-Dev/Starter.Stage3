@@ -12,43 +12,43 @@ namespace Starter.Framework.Tests.Extensions
     public class StringExtensionsTests
     {
         [Test]
-        public void Verify_StringsAreNotEqual_Successful()
+        public void IsEqualTo_ForDifferentStrings_Failure()
         {
             "Ben".IsEqualTo("Dan").Should().BeFalse();
         }
 
         [Test]
-        public void Verify_StringsAreEqual_Successful()
+        public void IsEqualTo_ForSameStrings_Successful()
         {
             "Ben".IsEqualTo("Ben").Should().BeTrue();
         }
 
         [Test]
-        public void Verify_StringsWithDifferentCaseAreEqual_Successful()
+        public void IsEqualTo_ForStringsWithDifferentCase_Successful()
         {
             "wolverine".IsEqualTo("WOLVERINE").Should().BeTrue();
         }
 
         [Test]
-        public void Verify_StringIsNotEqualToNull_Successful()
+        public void IsEqualTo_ForStringAndNull_Failure()
         {
             "Dan".IsEqualTo(null).Should().BeFalse();
         }
 
         [Test]
-        public void IsEmpty_IsFalseForNonEmptyString_Successful()
+        public void IsEmpty_ForNonEmptyString_Failure()
         {
             "Ben".IsEmpty().Should().BeFalse();
         }
 
         [Test]
-        public void IsEmpty_IsTrueForForEmptyString_Successful()
+        public void IsEmpty_ForEmptyString_Successful()
         {
             "".IsEmpty().Should().BeTrue();
         }
 
         [Test]
-        public void IsEmpty_IsTrueForWhiteSpaceIsString_Successful()
+        public void IsEmpty_ForWhiteSpaceIsString_Successful()
         {
             "     ".IsEmpty().Should().BeTrue();
         }

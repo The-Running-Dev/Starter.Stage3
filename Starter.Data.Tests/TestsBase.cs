@@ -15,7 +15,7 @@ using Starter.Framework.Services;
 namespace Starter.Data.Tests
 {
     /// <summary>
-    /// 
+    /// Base class for the Starter.Data.Tests project
     /// </summary>
     [SetUpFixture]
     public class TestsBase

@@ -14,7 +14,7 @@ using Starter.Data.Repositories;
 namespace Starter.API.Tests
 {
     /// <summary>
-    /// 
+    /// Base class for the Starter.API.Tests project
     /// </summary>
     [SetUpFixture]
     public class TestsBase

@@ -42,9 +42,9 @@ namespace Starter.Framework.Extensions
                     .Select(value => new
                     {
                         Name = ((Enum)value).GetDescription(),
-                        Value = (int) value
+                        Value = (int)value
                     }).ToList();
-            
+
             pairs.Append(new
             {
                 Name = string.Empty,
@@ -52,6 +52,17 @@ namespace Starter.Framework.Extensions
             });
 
             return pairs.OrderBy(pair => pair.Name);
+        }
+
+        /// <summary>
+        /// Compares two objects for equality, accounting for null
+        /// </summary>
+        /// <param name="first"></param>
+        /// <param name="second"></param>
+        /// <returns></returns>
+        public static bool IsEqualTo(this object first, object second)
+        {
+            return second != null && second.Equals(first);
         }
     }
 }

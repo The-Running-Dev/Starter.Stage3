@@ -1,14 +1,14 @@
 ﻿using System.Data;
-using Microsoft.SqlServer.Server;
 
 using NUnit.Framework;
+using Microsoft.SqlServer.Server;
 
 using Starter.Bootstrapper;
 
 namespace Starter.Framework.Tests
 {
     /// <summary>
-    /// 
+    /// Base class for the Starter.Framework.Tests project
     /// </summary>
     [SetUpFixture]
     public class TestsBase
@@ -24,5 +24,12 @@ namespace Starter.Framework.Tests
                 new SqlMetaData("Id", SqlDbType.UniqueIdentifier),
                 new SqlMetaData("Name", SqlDbType.NVarChar, 20));
         }
+    }
+
+    public enum TestEnum
+    {
+        [System.ComponentModel.Description("First Item")]
+        FirstItem,
+        SecondItem
     }
 }

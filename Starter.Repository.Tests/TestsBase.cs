@@ -13,7 +13,7 @@ using Starter.Data.Repositories;
 namespace Starter.Repository.Tests
 {
     /// <summary>
-    /// 
+    /// Base class for the Starter.Repository.Tests project
     /// </summary>
     [SetUpFixture]
     public class TestsBase
@@ -30,6 +30,9 @@ namespace Starter.Repository.Tests
             CatRepository = IocWrapper.Instance.GetService<ICatRepository>();
         }
 
+        /// <summary>
+        /// Cleans up database created records
+        /// </summary>
         [OneTimeTearDown]
         public void OneTimeTearDown()
         {
@@ -46,7 +49,10 @@ namespace Starter.Repository.Tests
             }
         }
 
-        protected void CreateCatTestData()
+        /// <summary>
+        /// Creates tests data in the database
+        /// </summary>
+        protected void CreateTestData()
         {
             Cats = new List<Cat>
             {
