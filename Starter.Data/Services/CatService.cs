@@ -28,17 +28,23 @@ namespace Starter.Data.Services
 
         public async Task Create(Cat entity)
         {
-            await _serviceBus.Send(entity);
+            var message = new Message<Cat>(MessageCommand.Create, entity);
+
+            await _serviceBus.Send(message);
         }
 
         public async Task Update(Cat entity)
         {
-            await _serviceBus.Send(entity);
+            var message = new Message<Cat>(MessageCommand.Update, entity);
+
+            await _serviceBus.Send(message);
         }
 
         public async Task Delete(Guid id)
         {
-            await _serviceBus.Send(id);
+            var message = new Message<Guid>(MessageCommand.Delete, id);
+
+            await _serviceBus.Send(message);
         }
 
         private readonly IServiceBus _serviceBus;
