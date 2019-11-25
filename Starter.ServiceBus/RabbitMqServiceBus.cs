@@ -9,7 +9,7 @@ using Starter.Framework.Extensions;
 
 namespace Starter.ServiceBus
 {
-    public class ServiceBus : IServiceBus
+    public class RabbitMqServiceBus : IServiceBus
     {
         public async Task Send<T>(T entity)
         {

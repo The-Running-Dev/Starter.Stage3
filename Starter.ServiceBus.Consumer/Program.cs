@@ -1,18 +1,21 @@
 ﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Timers;
-
+using Starter.Data.Connections;
 using Topshelf;
+
+using Starter.Data.Services;
+
 
 namespace Starter.ServiceBus.Consumer
 {
-    public class TownCrier
-    {
-        readonly Timer _timer;
+    
 
-        public TownCrier()
+    public class ServiceBusConsumer
+    {
+        public ServiceBusConsumer(ICatService catService)
         {
-            _timer = new Timer(1000) { AutoReset = true };
-            _timer.Elapsed += (sender, eventArgs) => Console.WriteLine("It is {0} and all is well", DateTime.Now);
         }
 
         public void Start()
@@ -34,7 +37,7 @@ namespace Starter.ServiceBus.Consumer
             {
                 x.Service<TownCrier>(s =>
                 {
-                    s.ConstructUsing(name => new TownCrier());
+                    s.ConstructUsing(name => new ServiceBusConsumer());
                     s.WhenStarted(tc => tc.Start());
                     s.WhenStopped(tc => tc.Stop());
                 });

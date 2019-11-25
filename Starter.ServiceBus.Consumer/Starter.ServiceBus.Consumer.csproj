@@ -55,5 +55,11 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Starter.Data\Starter.Data.csproj">
+      <Project>{CA09D6B3-636B-40C1-A126-3C38EE740B73}</Project>
+      <Name>Starter.Data</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
