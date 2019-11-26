@@ -12,7 +12,13 @@ namespace Starter.Framework.Tests.Extensions
     public class ObjectExtensionsTests
     {
         [Test]
-        public void ToJson_Convert_Successful()
+        public void IsEqualTo_ForTwoObjects_Successful()
+        {
+
+        }
+
+        [Test]
+        public void ToJson_ForObject_Successful()
         {
             dynamic entity = new { Id = 1, Name = "Name" };
 
@@ -20,7 +26,7 @@ namespace Starter.Framework.Tests.Extensions
         }
 
         [Test]
-        public void ToJson_ConvertWithFormatting_Successful()
+        public void ToJson_ForObjectWithFormatting_Successful()
         {
             dynamic entity = new { Id = 1, Name = "Name" };
 
@@ -31,7 +37,13 @@ namespace Starter.Framework.Tests.Extensions
         }
 
         [Test]
-        public void ToNameValueList_OnEnum_Successful()
+        public void ToJsonBytes_ForObject_Successful()
+        {
+
+        }
+
+        [Test]
+        public void ToNameValueList_ForEnum_Successful()
         {
 
         }

@@ -4,15 +4,14 @@ using System.Collections.Generic;
 
 using Starter.Data.Entities;
 using Starter.Framework.Clients;
-using Starter.Framework.Services;
 
 namespace Starter.Data.Services
 {
-    public class CatService: ICatService
+    public class CatService : ICatService, IDisposable
     {
-        private readonly IApiClient _apiClient; 
-        
-        private readonly IMessageBus _messageBus;
+        private readonly IApiClient _apiClient;
+
+        private IMessageBus _messageBus;
 
         public CatService(IMessageBus messageBus, IApiClient apiClient)
         {
@@ -46,9 +45,15 @@ namespace Starter.Data.Services
 
         public async Task Delete(Guid id)
         {
-            var message = new Message<Guid>(MessageCommand.Delete, id);
+            var message = new Message<Cat>(MessageCommand.Delete, new Cat { Id = id });
 
             await _messageBus.Send(message);
+        }
+
+        public void Dispose()
+        {
+            _messageBus.Stop();
+            _messageBus = null;
         }
     }
 }

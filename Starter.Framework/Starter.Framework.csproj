@@ -62,7 +62,6 @@
     <Compile Include="Clients\IHttpClientFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Clients\ApiClient.cs" />
-    <Compile Include="Services\IMessageBus.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

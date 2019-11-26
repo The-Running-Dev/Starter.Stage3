@@ -4,12 +4,10 @@ using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-
+using System.Threading;
 using Starter.Data.Commands;
 using Starter.Data.Entities;
 using Starter.Data.Services;
-using Starter.Framework.Clients;
-using Starter.Framework.Services;
 using Starter.Framework.Extensions;
 
 namespace Starter.Data.ViewModels
@@ -43,6 +41,8 @@ namespace Starter.Data.ViewModels
         public PropertyObservable<bool> IsNameFocused { get; set; }
 
         public ICommand CreateCommand { get; set; }
+
+        public ICommand RefreshCommand { get; set; }
 
         public ICommand SaveCommand { get; set; }
 
@@ -80,6 +80,7 @@ namespace Starter.Data.ViewModels
             SelectedCat.PropertyChanged += OnSelectedCatPropertyChanged;
 
             CreateCommand = new CatCommand(Create, param => !IsCreating.Value);
+            RefreshCommand = new CatCommand(async () => await GetAll(), param => !IsCreating.Value);
             SaveCommand = new CatCommand(Save, canExecute => AllowSave);
             DeleteCommand = new CatCommand(Delete, canExecute => IsCatSelected && !IsCreating.Value);
             CancelCommand = new CatCommand(ResetSelection, canExecute => IsCatSelected || IsCreating.Value);
@@ -137,6 +138,10 @@ namespace Starter.Data.ViewModels
             }
 
             ResetSelection();
+
+            // Hack: Make the thread sleep so the consumer
+            // has time to consume the message
+            Thread.Sleep(2000);
 
             await GetAll();
         }

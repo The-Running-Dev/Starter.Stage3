@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Starter.ServiceBus.Consumer")]
+[assembly: AssemblyTitle("Starter.MessageBus.Consumer")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Starter.ServiceBus.Consumer")]
+[assembly: AssemblyProduct("Starter.MessageBus.Consumer")]
 [assembly: AssemblyCopyright("Copyright ©  2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("acbca415-f30a-4e3b-99f2-67f6f4f7f0bd")]
+[assembly: Guid("2baff81c-d739-4d02-960f-0e26756c9890")]
 
 // Version information for an assembly consists of the following four values:
 //

@@ -1,63 +1,68 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
-using Starter.Framework.Services;
+using Starter.Data.Entities;
+using Starter.Data.Services;
 using Starter.Framework.Extensions;
 
 namespace Starter.MessageBus.RabbitMQ
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class RabbitMessageBus : IMessageBus
     {
         private readonly IModel _channel;
+
+        private readonly EventingBasicConsumer _consumer;
+        
+        private readonly IConnection _connection;
+        
+        private readonly string _queueName;
+
+        public event EventHandler<Message<Cat>> DataReceived;
 
         public RabbitMessageBus()
         {
             var factory = new ConnectionFactory { HostName = "localhost" };
 
-            // create connection
-            var connection = factory.CreateConnection();
-
-            // create channel
-            _channel = connection.CreateModel();
-
-            _channel.ExchangeDeclare("demo.exchange", ExchangeType.Topic);
-            _channel.QueueDeclare("demo.queue.log", false, false, false, null);
-            _channel.QueueBind("demo.queue.log", "demo.exchange", "demo.queue.*", null);
-            _channel.BasicQos(0, 1, false);
-
-            //_connection.ConnectionShutdown += RabbitMQ_ConnectionShutdown;
+            _connection = factory.CreateConnection();
+            _channel = _connection.CreateModel();
+            _consumer = new EventingBasicConsumer(_channel);
+            
+            _queueName = "Starter.Queue";
+            _channel.QueueDeclare(_queueName, false, false, false, null);
         }
-
+        
         public async Task Send<T>(T entity)
         {
             await Task.Run(() =>
             {
                 var entityAsBytes = entity.ToJsonBytes();
 
-                _channel.BasicPublish("", "hello", null, entityAsBytes);
+                _channel.BasicPublish(string.Empty, _queueName, null, entityAsBytes);
             });
         }
 
-        public async Task<T> Receive<T>() where T : new()
+        public void Receive<T>() where T : new()
         {
-            var entity = await Task.Run(() =>
+            _consumer.Received += (model, args) =>
             {
-                var result = new T();
-                var consumer = new EventingBasicConsumer(_channel);
+                var message = args.Body.FromJsonBytes<Message<Cat>>();
 
-                consumer.Received += (model, ea) =>
-                {
-                    result = ea.Body.FromJsonBytes<T>();
-                };
+                DataReceived?.Invoke(this, message);
+            };
 
-                _channel.BasicConsume("hello", true, consumer);
+            _channel.BasicConsume(_queueName, true, _consumer);
+        }
 
-                return result;
-            });
-
-            return entity;
+        public void Stop()
+        {
+            _channel.Close();
+            _connection.Close();
         }
     }
 }

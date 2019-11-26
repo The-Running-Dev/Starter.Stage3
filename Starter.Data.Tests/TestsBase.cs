@@ -11,7 +11,6 @@ using Starter.Data.Entities;
 using Starter.Data.Services;
 using Starter.Data.ViewModels;
 using Starter.Framework.Clients;
-using Starter.Framework.Services;
 
 namespace Starter.Data.Tests
 {

@@ -12,7 +12,6 @@ using Starter.Data.ViewModels;
 using Starter.Data.Connections;
 using Starter.Data.Repositories;
 using Starter.Framework.Clients;
-using Starter.Framework.Services;
 using Starter.MessageBus.RabbitMQ;
 using Starter.Repository.Connections;
 using Starter.Repository.Repositories;

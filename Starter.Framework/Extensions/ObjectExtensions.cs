@@ -13,6 +13,17 @@ namespace Starter.Framework.Extensions
     public static class ObjectExtensions
     {
         /// <summary>
+        /// Compares two objects for equality, accounting for null
+        /// </summary>
+        /// <param name="first"></param>
+        /// <param name="second"></param>
+        /// <returns></returns>
+        public static bool IsEqualTo(this object first, object second)
+        {
+            return second != null && second.Equals(first);
+        }
+
+        /// <summary>
         /// Converts an entity to JSON
         /// </summary>
         /// <param name="entity">The entity to convert</param>
@@ -63,17 +74,6 @@ namespace Starter.Framework.Extensions
             });
 
             return pairs.OrderBy(pair => pair.Name);
-        }
-
-        /// <summary>
-        /// Compares two objects for equality, accounting for null
-        /// </summary>
-        /// <param name="first"></param>
-        /// <param name="second"></param>
-        /// <returns></returns>
-        public static bool IsEqualTo(this object first, object second)
-        {
-            return second != null && second.Equals(first);
         }
     }
 }

@@ -1,5 +1,9 @@
 ﻿namespace Starter.Data.Entities
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class Message<T>
     {
         public MessageCommand Command { get; set; }
@@ -12,7 +16,7 @@
         {
             Command = command;
             Entity = entity;
-            Type = nameof(T);
+            Type = typeof(T).ToString();
         }
     }
 }

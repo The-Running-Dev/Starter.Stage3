@@ -37,6 +37,10 @@
     <Reference Include="RabbitMQ.Client, Version=5.0.0.0, Culture=neutral, PublicKeyToken=89e7d7c5feba84ce, processorArchitecture=MSIL">
       <HintPath>..\packages\RabbitMQ.Client.5.1.2\lib\net451\RabbitMQ.Client.dll</HintPath>
     </Reference>
+    <Reference Include="Starter.MessageBus.RabbitMQ, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Starter.API\Bin\Starter.MessageBus.RabbitMQ.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -54,6 +58,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Starter.Data\Starter.Data.csproj">
+      <Project>{CA09D6B3-636B-40C1-A126-3C38EE740B73}</Project>
+      <Name>Starter.Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Starter.Framework\Starter.Framework.csproj">
       <Project>{C0F6263B-83CA-41BE-B080-2DC38F42A0A3}</Project>
       <Name>Starter.Framework</Name>
